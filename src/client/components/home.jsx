@@ -1,7 +1,7 @@
 import React from 'react'
 import WorkerList from './workerList.jsx'
 import WorkerProfile from './workerProfile.jsx'
-import addressFormParent from './addressFormParent.jsx'
+import AddressFormParent from './addressFormParent.jsx'
 import Search from './search.jsx'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 

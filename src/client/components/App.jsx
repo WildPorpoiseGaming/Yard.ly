@@ -198,8 +198,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Home workers={this.state.workers} />
-        <AddressFormParent user={user} />
+        <Home workers={this.state.workers} user={user} />
       </div>
 
     )
