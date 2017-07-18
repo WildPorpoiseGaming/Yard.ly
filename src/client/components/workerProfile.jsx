@@ -1,5 +1,6 @@
 import React from 'react'
 import WorkerInfo from './workerInfo.jsx'
+import WorkerRequestList from './workerRequestList.jsx'
 import EquipmentServicesInfo from './equipmentServicesInfo.jsx'
 import {
 	workersUpdateRoute,
@@ -148,12 +149,29 @@ class WorkerProfile extends React.Component {
   componentDidMount() {
     this.getWorker(this.props.worker._id)
   }
+	requests = [
+		{
+			_id: "1",
+			userId: "2",
+			workerId: "2",
+			address: {
+				address: "124 Great Frontier Dr.",
+				city: "Georgetown",
+				state: "TX",
+				zipcode: "78633",
+			},
+			time: "1:21 PM",
+			date: "August 4 2017",
+
+
+		}
+	]
   render() {
     return (
       <div>
         <WorkerInfo worker={this.state.worker} submitArea={this.submitArea} submitEmail={this.submitEmail} submitPhone={this.submitPhone}/>
         <EquipmentServicesInfo submitImage={this.submitImage} worker={this.state.worker} onEquipmentClick={this.onEquipmentClick} onServicesClick={this.onServicesClick}/>
-      </div>
+			</div>
     )
   }
 }
