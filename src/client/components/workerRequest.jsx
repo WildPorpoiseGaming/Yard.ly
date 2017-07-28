@@ -248,6 +248,7 @@ class WorkerRequest extends React.Component {
 					email: '',
 				},
 				rate: 0,
+				center: {},
 				requests: [],
 				image: '',
 				address: {
@@ -334,7 +335,8 @@ class WorkerRequest extends React.Component {
 			})
 	}
 	componentDidMount() {
-		this.getWorker(this.props.workerId)
+		console.log(this.state)
+		// this.getWorker(this.props.wid)
 	}
 	render() {
 		return (
@@ -392,7 +394,8 @@ class WorkerRequest extends React.Component {
 							<div className="back">
 								<div className="header">
 									<h5 className="motto">
-										{this.props.jobname} {this.state.accepted ? 'Accepted' : 'Being Reviewed'}
+										{this.props.jobname}{' '}
+										{this.state.accepted ? 'Accepted' : 'Being Reviewed'}
 									</h5>
 								</div>
 								<div className="content">

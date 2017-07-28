@@ -62,6 +62,8 @@ router.post(REQUESTS_CREATE, (req, res, next) => {
 		image: req.body.image,
 		hours: req.body.hours,
 		rate: req.body.rate,
+		lat: req.body.lat,
+		lng: req.body.lng,
 	})
 	request
 		.save()

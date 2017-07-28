@@ -7,6 +7,7 @@ const WorkerSchema = new Schema({
   password: { type: String, required: true },
   services: Object,
   area: String,
+  center: Object,
   firstName: String,
   lastName: String,
   rate: Number,

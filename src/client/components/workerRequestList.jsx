@@ -12,8 +12,8 @@ const WorkerRequestList = props =>
 							type={props.type}
 							key={i}
 							request={request}
-							workerId={request.workerId}
-							userId={request.userId}
+							wid={request.workerId}
+							uid={request.userId}
 							id={request._id}
 							jobname={request.jobname}
 							date={request.date}

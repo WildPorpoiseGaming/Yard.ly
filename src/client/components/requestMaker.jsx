@@ -71,11 +71,15 @@ class RequestMaker extends Component {
 				time: '',
 				hours: 2,
 				rate: 21,
+				lat: 30.7144741,
+				lng: -97.7264677,
 				image: 'http://dummyimage.com/195x227.png/dddddd/000000',
 				__v: 0,
 			},
 			jobname: 'Placeholder',
 			time: 'Placeholder',
+			lat: '',
+			lng: '',
 			hours: 0,
 			address: this.props.user.addresses[0] || {
 				address: '',
@@ -168,9 +172,27 @@ class RequestMaker extends Component {
 		}, ()=> {console.log('this,.state.hosuir', this.state.hours)})
 	}
 	setAddress(address) {
-		this.setState({
-			address: address,
-		})
+		var add = address.address.split(' ').join('')
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=
+		${add}`,
+			{
+				method: 'GET',
+			},
+		)
+			.then(res => {
+				return res.json()
+			})
+			.then(obj => {
+				console.log(obj)
+				this.setState(
+					{
+						address: address,
+						lat: obj.results[0].geometry.location.lat,
+						lng: obj.results[0].geometry.location.lng,
+					}
+				)
+			})
 	}
 	submitRequest() {
 		fetch('/api'.concat(REQUESTS_CREATE), {
@@ -193,6 +215,8 @@ class RequestMaker extends Component {
 				date: this.state.date,
 				dt: this.state.dt,
 				rate: this.props.worker.rate,
+				lat: this.state.lat,
+				lng: this.state.lng,
 			}),
 		})
 			.then(res => {

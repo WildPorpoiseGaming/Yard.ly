@@ -10,6 +10,7 @@ import {
 	requestsWorkerRoute,
 	requestsFilterRoute,
 } from '../../server/routes.js'
+import GoogleMapReact from 'google-map-react'
 import AddressFormChild from './addressFormChild.jsx'
 import AddressChildList from './addressFormChildList.jsx'
 import WorkerRequestList from './workerRequestList.jsx'
@@ -18,12 +19,58 @@ import WorkerInfo from './workerInfo.jsx'
 import EquipmentServicesInfo from './equipmentServicesInfo.jsx'
 import axios from 'axios'
 
+const AnyReactComponent = ({ text }) => <div className="marker">{text}</div>
+
 // import { usersUpdateRoute } from '../../shared/routes'
 class AddressFormParent extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			requests: [],
+			requests: [
+				{
+					_id: '',
+					jobname: 'Placeholder',
+					userId: '',
+					workerId: '',
+					accepted: false,
+					services: {
+						Mowing: false,
+						'Tree Trimming': false,
+						Edging: false,
+						'Weed Eating': false,
+						'Hedge Trimming': false,
+						Fertilizing: false,
+						Aerating: false,
+						Mulching: false,
+						Weeding: false,
+						planting: false,
+						'Grass Seeding': false,
+					},
+					equipment: {
+						'Lawn Mower': false,
+						'Weed Eater': false,
+						'Mulch Truck': false,
+						Edger: false,
+						'Hedge Trimmer': false,
+						Chainsaw: false,
+						'Lawn Aerator': false,
+						Seeder: false,
+					},
+					address: {
+						address: '',
+						city: '',
+						state: '',
+						zipcode: '',
+					},
+					time: '',
+					hours: 2,
+					rate: 21,
+					lat: 30.7144741,
+					lng: -97.7264677,
+					image: 'http://dummyimage.com/195x227.png/dddddd/000000',
+					__v: 0,
+				},
+			],
 			worker: {
 				username: '',
 				password: '',
@@ -51,6 +98,10 @@ class AddressFormParent extends Component {
 					Seeder: false,
 				},
 				area: '',
+				center: {
+					lat: 30.5168629,
+					lng: -97.56841989999999,
+				},
 				firstName: '',
 				lastName: '',
 				contactInfo: {
@@ -71,8 +122,7 @@ class AddressFormParent extends Component {
 			user: {
 				__v: 0,
 				username: '',
-				password:
-					'',
+				password: '',
 				_id: '',
 				contactInfo: {
 					phoneNumber: '',
@@ -100,13 +150,14 @@ class AddressFormParent extends Component {
 		this.submitForm = this.submitForm.bind(this)
 		this.submitEmail = this.submitEmail.bind(this)
 		this.submitPhone = this.submitPhone.bind(this)
+		this.submitImage = this.submitImage.bind(this)
 		this.deleteAddress = this.deleteAddress.bind(this)
 		this.onClickDelete = this.onClickDelete.bind(this)
 		this.onClickAddress = this.onClickAddress.bind(this)
 		this.getUserRequests = this.getUserRequests.bind(this)
 		this.getWorkerRequests = this.getWorkerRequests.bind(this)
 		this.getWorker = this.getWorker.bind(this)
-		this.getUser  = this.getUser.bind(this)
+		this.getUser = this.getUser.bind(this)
 		this.updateUser = this.updateUser.bind(this)
 		this.updateRequest = this.updateRequest.bind(this)
 		this.submitEmail = this.submitEmail.bind(this)
@@ -122,7 +173,6 @@ class AddressFormParent extends Component {
 		this.onServicesClick = this.onServicesClick.bind(this)
 		this.changeService = this.changeService.bind(this)
 		this.changeEquipment = this.changeEquipment.bind(this)
-
 	}
 	submitUserEmail(e) {
 		e.preventDefault()
@@ -130,8 +180,8 @@ class AddressFormParent extends Component {
 			...this.state.user,
 			contactInfo: {
 				...this.state.user.contactInfo,
-				email: e.target.email.value
-			}
+				email: e.target.email.value,
+			},
 		}
 		this.setState(
 			{
@@ -147,8 +197,8 @@ class AddressFormParent extends Component {
 			...this.state.user,
 			contactInfo: {
 				...this.state.user.contactInfo,
-				phoneNumber: e.target.phoneNumber.value
-			}
+				phoneNumber: e.target.phoneNumber.value,
+			},
 		}
 		this.setState(
 			{
@@ -205,7 +255,6 @@ class AddressFormParent extends Component {
 				document.getElementById('image').value = ''
 				document.getElementById('rate').value = ''
 				document.getElementById('radius').value = ''
-
 			})
 			.catch(err => {
 				console.log(err)
@@ -217,8 +266,8 @@ class AddressFormParent extends Component {
 			...this.state.worker,
 			contactInfo: {
 				...this.state.worker.contactInfo,
-				email: e.target.email.value
-			}
+				email: e.target.email.value,
+			},
 		}
 		this.setState(
 			{
@@ -234,8 +283,8 @@ class AddressFormParent extends Component {
 			...this.state.worker,
 			contactInfo: {
 				...this.state.worker.contactInfo,
-				phoneNumber: e.target.phoneNumber.value
-			}
+				phoneNumber: e.target.phoneNumber.value,
+			},
 		}
 		this.setState(
 			{
@@ -248,7 +297,7 @@ class AddressFormParent extends Component {
 	submitArea(e) {
 		var worker = {
 			...this.state.worker,
-			area: e.target.area.value
+			area: e.target.area.value,
 		}
 		this.setState(
 			{
@@ -268,7 +317,7 @@ class AddressFormParent extends Component {
 				city: e.target.city.value,
 				state: e.target.state.value,
 				zipcode: e.target.zipcode.value,
-			}
+			},
 		}
 		this.setState(
 			{
@@ -281,7 +330,7 @@ class AddressFormParent extends Component {
 	submitImage(e) {
 		var worker = {
 			...this.state.worker,
-			image: e.target.image.value
+			image: e.target.image.value,
 		}
 		this.setState(
 			{
@@ -294,7 +343,7 @@ class AddressFormParent extends Component {
 	submitRate(e) {
 		var worker = {
 			...this.state.worker,
-			rate: e.target.rate.value
+			rate: e.target.rate.value,
 		}
 		this.setState(
 			{
@@ -307,7 +356,7 @@ class AddressFormParent extends Component {
 	submitRadius(e) {
 		var worker = {
 			...this.state.worker,
-			radius: e.target.radius.value
+			radius: e.target.radius.value,
 		}
 		this.setState(
 			{
@@ -327,7 +376,9 @@ class AddressFormParent extends Component {
 				return res.json()
 			})
 			.then(data => {
-				this.setState({ worker: data, currId: id })
+				this.setState({ worker: data, currId: id }, () =>
+					console.log(this.state.worker),
+				)
 			})
 			.catch(err => {
 				console.log(err)
@@ -362,7 +413,7 @@ class AddressFormParent extends Component {
 			.then(requests => {
 				this.setState({ requests: requests, type: 'USER' })
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err)
 			})
 	}
@@ -487,7 +538,7 @@ class AddressFormParent extends Component {
 			() => this.updateUser(this.state.user._id, this.state.user),
 		)
 	}
-// <EditContactInfo contactInfo={this.state.user} submitEmail={this.submitEmail} submitPhone={this.submitPhone} />
+	// <EditContactInfo contactInfo={this.state.user} submitEmail={this.submitEmail} submitPhone={this.submitPhone} />
 	submitPhone(e) {
 		e.preventDefault()
 		var user = this.state.user
@@ -528,8 +579,8 @@ class AddressFormParent extends Component {
 			...this.state.worker,
 			equipment: {
 				...this.state.worker.equipment,
-				[type]: !this.state.worker.equipment[type]
-			}
+				[type]: !this.state.worker.equipment[type],
+			},
 		}
 		this.setState(
 			{
@@ -552,8 +603,8 @@ class AddressFormParent extends Component {
 			...this.state.worker,
 			services: {
 				...this.state.worker.services,
-				[type]: !this.state.worker.services[type]
-			}
+				[type]: !this.state.worker.services[type],
+			},
 		}
 		this.setState(
 			{
@@ -567,9 +618,8 @@ class AddressFormParent extends Component {
 		axios({
 			method: 'get',
 			url: '/api/session',
-		})
-		.then(res=>{
-			if(res.data.type === 'USER') {
+		}).then(res => {
+			if (res.data.type === 'USER') {
 				this.getUser(res.data.user._id)
 				this.getUserRequests(res.data.user._id)
 			} else if (res.data.type === 'WORKER') {
@@ -577,55 +627,82 @@ class AddressFormParent extends Component {
 				this.getWorkerRequests(res.data.user._id)
 			}
 		})
-
 	}
 	render() {
 		return (
 			<div>
-					{ this.state.type === 'USER' ?
+				{this.state.type === 'USER'
+					? <div>
+							<h1>Welcome {this.state.user.firstName}</h1>
+							<h2>
+								{this.state.user.contactInfo.phoneNumber}
+								{this.state.user.contactInfo.email}
+							</h2>
+							<form onSubmit={this.submitUserPhone}>
+								<input
+									id="phoneNumber"
+									type="text"
+									name="phoneNumber"
+									placeholder={
+										'Edit phone number: ' +
+										this.state.user.contactInfo.phoneNumber
+									}
+								/>
+								<button type="submit">Submit</button>
+							</form>
+							<form onSubmit={this.submitUserEmail}>
+								<input
+									id="email"
+									type="text"
+									name="email"
+									placeholder={
+										'Edit email: ' + this.state.user.contactInfo.email
+									}
+								/>
+								<button type="submit">Submit</button>
+							</form>
+							<AddressFormChild click={this.submitForm.bind(this)} />
+							<AddressChildList
+								onClickAddress={this.onClickAddress}
+								onClickDelete={this.onClickDelete}
+								addresses={this.state.user.addresses}
+							/>
+						</div>
+					: ''}
+				{this.state.type === 'WORKER'
+					? <div>
+							<h1>Welcome {this.state.user.firstName}</h1>
+							<WorkerInfo worker={this.state.worker} />
+							<EquipmentServicesInfo
+								worker={this.state.worker}
+								onEquipmentClick={this.onEquipmentClick}
+								onServicesClick={this.onServicesClick}
+								currId={this.state.currId}
+							/>
+							<EditContactInfo
+								submitArea={this.submitArea}
+								submitAddress={this.submitAddress}
+								submitEmail={this.submitEmail}
+								submitImage={this.submitImage}
+								submitRate={this.submitRate}
+								submitRadius={this.submitRadius}
+								submitPhone={this.submitPhone}
+								worker={this.state.worker}
+								contactInfo={this.state.worker.contactInfo}
+								area={this.state.worker.area}
+							/>
+							<div className="card-container card col-6">
+							</div>
+						</div>
+					: ''}
+				{
 					<div>
-					<h1>Welcome {this.state.user.firstName}</h1>
-					<h2>{this.state.user.contactInfo.phoneNumber}{this.state.user.contactInfo.email}</h2>
-					<form onSubmit={this.submitUserPhone}>
-						<input
-							id="phoneNumber"
-							type="text"
-							name="phoneNumber"
-							placeholder={"Edit phone number: " + this.state.user.contactInfo.phoneNumber}
+						<WorkerRequestList
+							requests={this.state.requests}
+							type={this.state.type}
 						/>
-						<button type="submit">Submit</button>
-					</form>
-					<form onSubmit={this.submitUserEmail}>
-						<input
-							id="email"
-							type="text"
-							name="email"
-							placeholder={"Edit email: " + this.state.user.contactInfo.email}
-						/>
-						<button type="submit">Submit</button>
-					</form>
-					<AddressFormChild click={this.submitForm.bind(this)} />
-					<AddressChildList
-						onClickAddress={this.onClickAddress}
-						onClickDelete={this.onClickDelete}
-						addresses={this.state.user.addresses}
-					/>
-				</div> : '' }
-				{ this.state.type === 'WORKER' ?
-				<div>
-				<h1>Welcome {this.state.user.firstName}</h1>
-				<WorkerInfo worker={this.state.worker} />
-				<EquipmentServicesInfo
-					worker={this.state.worker}
-					onEquipmentClick={this.onEquipmentClick}
-					onServicesClick={this.onServicesClick}
-					currId={this.state.currId}
-				/>
-				<EditContactInfo submitArea={this.submitArea} submitAddress={this.submitAddress} submitEmail={this.submitEmail} submitImage={this.submitImage} submitRate={this.submitRate} submitRadius={this.submitRadius} submitPhone={this.submitPhone} worker={this.state.worker} contactInfo={this.state.worker.contactInfo} area={this.state.worker.area} />
-			</div> : '' }
-				<div>
-					<WorkerRequestList  requests={this.state.requests} type={this.state.type} />
-				</div>
+					</div>
+				}
 			</div>
 		)
 	}

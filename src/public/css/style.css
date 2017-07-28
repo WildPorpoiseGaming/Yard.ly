@@ -268,7 +268,14 @@ a.text-danger:focus {
   height: 128px;
   margin-left: 150px;
 }
-
+.marker {
+  border: 8px solid #f44336;
+  border-radius: 80px;
+  background-color: white;
+  text-align: center;
+  color: #3f51b5;
+  padding: 4px;
+}
 
 .service-entry {
   margin: 5px;
@@ -397,7 +404,11 @@ body {
     transform: rotateY( 180deg );
 }
 
-
+.container {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+}
 .card-container.static:hover .card,
 .card-container.static.hover .card {
 	-webkit-transform: none;

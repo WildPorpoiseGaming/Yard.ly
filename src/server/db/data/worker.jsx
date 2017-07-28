@@ -26,6 +26,10 @@ const worker = [
 			Seeder: false,
 		},
 		area: 'Gafanha da Encarnação',
+		center: {
+            "lat": 30.5168629,
+            "lng": -97.56841989999999
+          },
 		firstName: 'Raquel',
 		lastName: 'Sherel',
 		contactInfo: {
@@ -66,6 +70,10 @@ const worker = [
 			Seeder: false,
 		},
 		area: 'Austin',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		firstName: 'Jerry',
 		lastName: 'Roar',
 		rate: 20,
@@ -83,6 +91,10 @@ const worker = [
 		username: 'jdagon26',
 		password: 'IZK4YX9',
 		area: 'Krajan',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: true,
 			'Tree Trimming': false,
@@ -123,6 +135,10 @@ const worker = [
 		username: 'enursey27',
 		password: 'sxOOwmucsX',
 		area: 'Chengxi',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: true,
 			'Tree Trimming': false,
@@ -163,6 +179,10 @@ const worker = [
 		username: 'nfauguel28',
 		password: 'hw29sbLIZ',
 		area: 'Gąsocin',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: true,
 			'Tree Trimming': false,
@@ -203,6 +223,10 @@ const worker = [
 		username: 'wdunstall29',
 		password: '1WTkTuj64JO',
 		area: 'Vabalninkas',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: false,
 			'Tree Trimming': false,
@@ -243,6 +267,10 @@ const worker = [
 		username: 'slukash2a',
 		password: '3USSkGr',
 		area: 'Babahoyo',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: false,
 			'Tree Trimming': false,
@@ -283,6 +311,10 @@ const worker = [
 		username: 'pgrey2b',
 		password: 'LzQx64prex',
 		area: 'Verkhniy Mamon',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: false,
 			'Tree Trimming': false,
@@ -323,6 +355,10 @@ const worker = [
 		username: 'equeen2c',
 		password: 'jQuu88yr',
 		area: 'Mutoko',
+		center: {
+						"lat": 30.5168629,
+						"lng": -97.56841989999999
+					},
 		services: {
 			Mowing: false,
 			'Tree Trimming': false,

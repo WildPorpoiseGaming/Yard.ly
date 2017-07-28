@@ -16,6 +16,8 @@ const RequestSchema = new Schema({
   image: String,
   hours: Number,
   rate: Number,
+  lat: Number,
+  lng: Number,
 })
 
 const Request = mongoose.model('Request', RequestSchema)

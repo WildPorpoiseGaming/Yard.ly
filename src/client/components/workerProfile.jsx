@@ -48,6 +48,10 @@ class WorkerProfile extends React.Component {
 					Seeder: false,
 				},
 				area: '',
+				center: {
+					lat: 30.5168629,
+					lng: -97.56841989999999,
+				},
 				firstName: '',
 				lastName: '',
 				contactInfo: {
@@ -107,8 +111,6 @@ class WorkerProfile extends React.Component {
 		this.getWorkerRequests = this.getWorkerRequests.bind(this)
 		this.getUserWorkerRequests = this.getUserWorkerRequests.bind(this)
 		this.makeRequestClick = this.makeRequestClick.bind(this)
-
-
 	}
 	submitEmail(e) {
 		e.preventDefault()
@@ -116,8 +118,8 @@ class WorkerProfile extends React.Component {
 			...this.state.worker,
 			contactInfo: {
 				...this.state.worker.contactInfo,
-				email: e.target.email.value
-			}
+				email: e.target.email.value,
+			},
 		}
 		this.setState(
 			{
@@ -133,8 +135,8 @@ class WorkerProfile extends React.Component {
 			...this.state.worker,
 			contactInfo: {
 				...this.state.worker.contactInfo,
-				phoneNumber: e.target.phoneNumber.value
-			}
+				phoneNumber: e.target.phoneNumber.value,
+			},
 		}
 		this.setState(
 			{
@@ -144,40 +146,71 @@ class WorkerProfile extends React.Component {
 		)
 	}
 	submitArea(e) {
-		var worker = {
-			...this.state.worker,
-			area: e.target.area.value
-		}
-		this.setState(
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=
+		${e.target.area.value}`,
 			{
-				worker: worker,
+				method: 'GET',
 			},
-			() => this.updateWorker(this.state.worker._id, this.state.worker),
 		)
+			.then(res => {
+				return res.json()
+			})
+			.then(obj => {
+				console.log(obj)
+				var worker = {
+					...this.state.worker,
+					area: e.target.area.value,
+					center: obj.results[0].geometry.location,
+				}
+				this.setState(
+					{
+						worker: worker,
+					},
+					() => this.updateWorker(this.state.worker._id, this.state.worker),
+				)
+			})
 	}
 	submitAddress(e) {
 		e.preventDefault()
-		var worker = {
-			...this.state.worker,
-			address: {
-				...this.state.worker.address,
-				address: e.target.address.value,
-				city: e.target.city.value,
-				state: e.target.state.value,
-				zipcode: e.target.zipcode.value,
-			}
-		}
-		this.setState(
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=
+		${e.target.address.value}`,
 			{
-				worker: worker,
+				method: 'GET',
 			},
-			() => this.updateWorker(this.state.worker._id, this.state.worker),
 		)
+			.then(res => {
+				return res.json()
+			})
+			.then(obj => {
+				console.log(obj)
+				var worker = {
+					...this.state.worker,
+					address: {
+						...this.state.worker.address,
+						address: e.target.address.value,
+						city: e.target.city.value,
+						state: e.target.state.value,
+						zipcode: e.target.zipcode.value,
+					},
+					center: {
+						lat: obj.results[0].geometry.location.lat,
+						lng: obj.results[0].geometry.location.lng,
+					}
+				}
+				this.setState(
+					{
+						worker: worker,
+					},
+					() => this.updateWorker(this.state.worker._id, this.state.worker),
+				)
+			})
 	}
 	submitImage(e) {
 		var worker = {
 			...this.state.worker,
-			image: e.target.image.value
+			image: e.target.image.value,
 		}
 		this.setState(
 			{
@@ -189,7 +222,7 @@ class WorkerProfile extends React.Component {
 	submitRate(e) {
 		var worker = {
 			...this.state.worker,
-			rate: e.target.rate.value
+			rate: e.target.rate.value,
 		}
 		this.setState(
 			{
@@ -201,7 +234,7 @@ class WorkerProfile extends React.Component {
 	submitRadius(e) {
 		var worker = {
 			...this.state.worker,
-			radius: e.target.radius.value
+			radius: e.target.radius.value,
 		}
 		this.setState(
 			{
@@ -227,7 +260,7 @@ class WorkerProfile extends React.Component {
 			},
 			() => this.updateUser(this.state.user._id, this.state.user),
 		)
-}
+	}
 
 	getWorker(id) {
 		fetch('/api'.concat(workersShowRoute(id)), {
@@ -256,11 +289,10 @@ class WorkerProfile extends React.Component {
 			})
 			.then(requests => {
 				// console.log('~~~~~~~worker', requests)
-				this.setState({ requests: requests, type: 'WORKER', currId: wid})
+				this.setState({ requests: requests, type: 'WORKER', currId: wid })
 			})
 			.then(() => {
 				// console.log('~~~~~~state', this.state)
-
 			})
 			.catch(err => {
 				console.log(err)
@@ -287,8 +319,6 @@ class WorkerProfile extends React.Component {
 				console.log(err)
 			})
 	}
-
-
 
 	updateWorker(id, worker) {
 		fetch('/api'.concat(workersUpdateRoute(id)), {
@@ -318,7 +348,6 @@ class WorkerProfile extends React.Component {
 				document.getElementById('image').value = ''
 				document.getElementById('rate').value = ''
 				document.getElementById('radius').value = ''
-
 			})
 			.catch(err => {
 				console.log(err)
@@ -379,8 +408,8 @@ class WorkerProfile extends React.Component {
 			...this.state.worker,
 			equipment: {
 				...this.state.worker.equipment,
-				[type]: !this.state.worker.equipment[type]
-			}
+				[type]: !this.state.worker.equipment[type],
+			},
 		}
 		this.setState(
 			{
@@ -403,8 +432,8 @@ class WorkerProfile extends React.Component {
 			...this.state.worker,
 			services: {
 				...this.state.worker.services,
-				[type]: !this.state.worker.services[type]
-			}
+				[type]: !this.state.worker.services[type],
+			},
 		}
 		this.setState(
 			{
@@ -418,16 +447,21 @@ class WorkerProfile extends React.Component {
 		axios({
 			method: 'get',
 			url: '/api/session',
-		})
-		.then(res=>{
-			if(res.data.type === 'USER') {
+		}).then(res => {
+			if (res.data.type === 'USER') {
 				this.getUser(res.data.user._id)
-				this.getUserWorkerRequests(res.data.user._id, this.props.location.pathname.slice(9))
-			} else if (res.data.type === 'WORKER' && res.data.user._id === this.props.location.pathname.slice(9)) {
+				this.getUserWorkerRequests(
+					res.data.user._id,
+					this.props.location.pathname.slice(9),
+				)
+			} else if (
+				res.data.type === 'WORKER' &&
+				res.data.user._id === this.props.location.pathname.slice(9)
+			) {
 				this.getWorkerRequests(this.props.location.pathname.slice(9))
 			}
 		})
-		}
+	}
 	render() {
 		return (
 			<div className="worker-profile-container">
@@ -440,22 +474,36 @@ class WorkerProfile extends React.Component {
 					onServicesClick={this.onServicesClick}
 					currId={this.state.currId}
 				/>
-				{this.state.currId === this.props.location.pathname.slice(9) ?
-					<EditContactInfo submitArea={this.submitArea} submitAddress={this.submitAddress} submitEmail={this.submitEmail} submitImage={this.submitImage} submitRate={this.submitRate} submitRadius={this.submitRadius} submitPhone={this.submitPhone} worker={this.state.worker} contactInfo={this.state.worker.contactInfo} area={this.state.worker.area} />
+				{this.state.currId === this.props.location.pathname.slice(9)
+					? <EditContactInfo
+							submitArea={this.submitArea}
+							submitAddress={this.submitAddress}
+							submitEmail={this.submitEmail}
+							submitImage={this.submitImage}
+							submitRate={this.submitRate}
+							submitRadius={this.submitRadius}
+							submitPhone={this.submitPhone}
+							worker={this.state.worker}
+							contactInfo={this.state.worker.contactInfo}
+							area={this.state.worker.area}
+						/>
 					: ''}
-				{ this.state.type === 'USER' ?
-					 <RequestMaker
+				{this.state.type === 'USER'
+					? <RequestMaker
 							updateRequest={this.updateRequest}
 							user={this.state.user}
 							worker={this.state.worker}
 							addresses={this.state.user.addresses}
 							makeRequestClick={this.makeRequestClick}
-						/> : '' }
-				{ this.state.type === 'USER' || (this.state.currId === this.props.location.pathname.slice(9)) ?
-					<WorkerRequestList
+						/>
+					: ''}
+				{this.state.type === 'USER' ||
+					this.state.currId === this.props.location.pathname.slice(9)
+					? <WorkerRequestList
 							requests={this.state.requests}
 							type={this.state.type}
-						/> : ''}
+						/>
+					: ''}
 			</div>
 		)
 	}

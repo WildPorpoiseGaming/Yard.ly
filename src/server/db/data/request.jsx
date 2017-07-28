@@ -38,6 +38,8 @@ const request = [
 		hours: 4,
 		rate: 20,
 		date: 'August 21 2017',
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		image:
 			'https://www.glcnow.com/v/vspfiles/assets/images/lawn-care%20worker.jpg',
 	},
@@ -80,6 +82,8 @@ const request = [
 		hours: 6,
 		rate: 15,
 		date: 'August 21 2017',
+		lat: '30.7145533',
+		lng: '-97.7264526',
 		image:
 			'https://www.glcnow.com/v/vspfiles/assets/images/lawn-care%20worker.jpg',
 	},
@@ -105,6 +109,8 @@ const request = [
 		time: '4:19 PM',
 		hours: 3,
 		rate: 30,
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		equipment: {
 			'Lawn Mower': true,
 			'Weed Eater': true,
@@ -146,6 +152,8 @@ const request = [
 		time: '11:00 PM',
 		hours: 3,
 		rate: 12,
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		address: {
 			address: '37588 Bobwhite Terrace',
 			city: 'Wichita',
@@ -158,7 +166,7 @@ const request = [
 		jobname: 'Persistent local service-desk',
 		_id: '596ea14dfc13ae7f5000087d',
 		userId: '596e8aeffc13ae05d100025c',
-		workerId: '596e8aeffc13ae05d100025d',
+		workerId: '596ea0b4fc13ae7f5000080e',
 		accepted: true,
 		services: {
 			Mowing: false,
@@ -192,13 +200,15 @@ const request = [
 		time: '9:37 PM',
 		hours: 2,
 		rate: 21,
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		image: 'http://dummyimage.com/195x227.png/dddddd/000000',
 	},
 	{
 		jobname: 'Object-based encompassing focus group',
 		_id: '596ea14dfc13ae7f5000087b',
 		userId: '596e8aeffc13ae05d100025e',
-		workerId: '596e8aeffc13ae05d100025f',
+		workerId: '596ea0b4fc13ae7f5000080e',
 		accepted: false,
 		services: {
 			Mowing: false,
@@ -226,6 +236,8 @@ const request = [
 		time: "2:00 pm",
 		hours: 3,
 		rate: 7,
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		address: {
 			address: '4 Sommers Trail',
 			city: 'Orange',
@@ -265,6 +277,8 @@ const request = [
 		time: '9:09 AM',
 		hours: 2,
 		rate: 20,
+		lat: '30.7145733',
+		lng: '-97.7263526',
 		image: 'http://dummyimage.com/104x148.bmp/dddddd/000000',
 		address: {
 			address: '62 Hagan Way',
