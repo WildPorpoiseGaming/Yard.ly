@@ -35,13 +35,14 @@ class Search extends React.Component {
 			})
 			.then(Json => {
 			  this.props.setWorkers(Json)
+				document.getElementById('search').value = ''
 			})
 	}
 	render() {
     return (
 				<form className="navbar-form navbar-left" role="search">
 				  <div className="form-group">
-				    <input type="text" className="form-control nav-search" placeholder="Search for workers" value={this.state.inputValue} onChange={this.handleChange}/>
+				    <input id="search" type="text" className="form-control nav-search" placeholder="Search for workers" value={this.state.inputValue} onChange={this.handleChange}/>
 				  </div>
 				  	<button className="btn btn-primary" onClick={this.handleSearch}>Submit</button>
 				</form>
