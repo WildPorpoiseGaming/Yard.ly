@@ -565,6 +565,7 @@ class AddressFormParent extends Component {
 	}
 
 	componentDidMount() {
+		document.getElementById('search').value = ''
 		axios({
 			method: 'get',
 			url: '/api/session',

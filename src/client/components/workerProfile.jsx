@@ -414,6 +414,7 @@ class WorkerProfile extends React.Component {
 		)
 	}
 	componentDidMount() {
+		document.getElementById('search').value = ''
 		this.getWorker(this.props.location.pathname.slice(9))
 		axios({
 			method: 'get',
