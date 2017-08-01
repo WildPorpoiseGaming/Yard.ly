@@ -23,9 +23,9 @@ class Search extends React.Component {
 	}
 
 	handleSearch(e) {
-		console.log('oh god hello world')
+		// console.log('oh god hello world')
 		e.preventDefault()
-		console.log(e, 'hi')
+		// console.log(e, 'hi')
 		fetch(`http://localhost:3000/api/filter/${this.state.inputValue}`, {
 			method: 'GET',
 		})
@@ -36,6 +36,7 @@ class Search extends React.Component {
 			.then(Json => {
 			  this.props.setWorkers(Json)
 				document.getElementById('search').value = ''
+				this.setState({searched : true})
 			})
 	}
 	render() {
