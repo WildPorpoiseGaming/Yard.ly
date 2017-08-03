@@ -26,7 +26,7 @@ class Search extends React.Component {
 		console.log('oh god hello world')
 		e.preventDefault()
 		console.log(e, 'hi')
-		fetch(`http://localhost:3000/api/filter/${this.state.inputValue}`, {
+		fetch(`/api/filter/${this.state.inputValue}`, {
 			method: 'GET',
 		})
 			.then(response => {
