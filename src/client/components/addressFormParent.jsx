@@ -590,7 +590,7 @@ class AddressFormParent extends Component {
 		        <span className="glyphicon glyphicon-earphone" aria-hidden="true"></span> {this.state.user.contactInfo ? this.state.user.contactInfo.phoneNumber : 'Contact info not found'}<br/>
 		        <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span> {this.state.user.contactInfo ? this.state.user.contactInfo.email : 'Contact info not found'}
 		      </p>
-					<form onSubmit={this.submitUserPhone}>
+					<div>
 						<input
 							id="phoneNumber"
 							type="text"
@@ -598,6 +598,8 @@ class AddressFormParent extends Component {
 							placeholder={"Edit phone number"}
 							className="form-control"
 						/>
+					</div>
+					<form onSubmit={this.submitUserPhone}>
 						<button type="submit" className="btn btn-primary" style={{marginTop: 5 + 'px', marginBottom: 15 + 'px'}}>Submit</button>
 					</form>
 					<form onSubmit={this.submitUserEmail}>
